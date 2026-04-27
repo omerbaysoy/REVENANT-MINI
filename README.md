@@ -112,6 +112,27 @@ Wrong broker IP:
 - Use the controller LAN IP, not `127.0.0.1`, when starting workers on other devices.
 - `scripts/start-broker.sh` prints a LAN IP hint.
 
+Local worker works but Raspberry Pi / Termux worker cannot connect:
+
+- Cause: Mosquitto may be bound only to `127.0.0.1`, so remote LAN devices cannot reach it.
+- Fix:
+
+```bash
+sudo python -m revenant_mini broker-configure-lan
+```
+
+- Verify:
+
+```bash
+sudo ss -ltnp | grep 1883
+```
+
+- Expected listener:
+
+```text
+0.0.0.0:1883
+```
+
 Mosquitto missing:
 
 ```bash

@@ -9,7 +9,7 @@ from rich.console import Console
 
 from . import __version__, protocol, topics
 from .banner import BANNER
-from .broker import start_broker
+from .broker import configure_lan_broker, start_broker
 from .controller import Controller
 from .utils import mqtt_client, setup_logging
 from .worker import Worker
@@ -68,6 +68,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     sub.add_parser("doctor", help="Check local runtime dependencies.").set_defaults(func=doctor)
     sub.add_parser("broker-start", help="Start local Mosquitto broker on port 1883.").set_defaults(func=lambda args: start_broker())
+    sub.add_parser("broker-configure-lan", help="Configure Mosquitto to listen for LAN workers.").set_defaults(
+        func=lambda args: configure_lan_broker()
+    )
 
     controller = sub.add_parser("controller", help="Run the controller TUI.")
     controller.add_argument("--broker", default="127.0.0.1", help="MQTT broker host.")
