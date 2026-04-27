@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "revenant-mini"
+version = "0.1.0"
+description = "Local-first mini swarm controller over MQTT."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "paho-mqtt",
+  "psutil",
+  "rich",
+]
+
+[project.scripts]
+revenant-mini = "revenant_mini.cli:main"
+
+[tool.setuptools]
+packages = ["revenant_mini"]
