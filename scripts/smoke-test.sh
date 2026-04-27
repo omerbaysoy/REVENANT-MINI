@@ -19,6 +19,7 @@ bash install/install.sh --help >/dev/null
 
 for path in \
   requirements.txt pyproject.toml README.md LICENSE .gitignore \
+  requirements-termux.txt \
   revenant_mini/__init__.py revenant_mini/__main__.py revenant_mini/cli.py \
   revenant_mini/controller.py revenant_mini/worker.py revenant_mini/broker.py \
   revenant_mini/telemetry.py revenant_mini/protocol.py revenant_mini/topics.py \

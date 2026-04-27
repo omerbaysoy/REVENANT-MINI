@@ -11,7 +11,7 @@ from . import __version__, protocol, topics
 from .banner import BANNER
 from .broker import configure_lan_broker, start_broker
 from .controller import Controller
-from .utils import mqtt_client, setup_logging
+from .utils import is_termux, mqtt_client, setup_logging
 from .worker import Worker
 
 console = Console()
@@ -21,14 +21,21 @@ def doctor(args: argparse.Namespace) -> int:
     console.print(f"[red]{BANNER}[/red]")
     console.print(f"REVENANT-MINI [white]{__version__}[/white]")
     ok = True
+    termux = is_termux()
     for module in ("paho.mqtt.client", "psutil", "rich"):
         try:
             importlib.import_module(module)
             found = True
         except ImportError:
             found = False
-        ok = ok and found
-        console.print(f"{module}: {'[green]ok[/green]' if found else '[red]missing[/red]'}")
+        optional_on_termux = termux and module == "psutil"
+        ok = ok and (found or optional_on_termux)
+        if found:
+            console.print(f"{module}: [green]ok[/green]")
+        elif optional_on_termux:
+            console.print(f"{module}: [yellow]missing; optional on Termux[/yellow]")
+        else:
+            console.print(f"{module}: [red]missing[/red]")
     mosquitto = shutil.which("mosquitto")
     console.print(f"mosquitto: {'[green]' + mosquitto + '[/green]' if mosquitto else '[yellow]missing[/yellow]'}")
     if not mosquitto:

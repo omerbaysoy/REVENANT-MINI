@@ -7,6 +7,14 @@ from rich.table import Table
 console = Console()
 
 
+def _percent(value) -> str:
+    return "-" if value is None else f"{value:.1f}%"
+
+
+def _text(value) -> str:
+    return "-" if value is None else str(value)
+
+
 def worker_table(workers: dict[str, dict]) -> Table:
     table = Table(title="REVENANT-MINI Workers", border_style="red")
     table.add_column("Worker", style="white", no_wrap=True)
@@ -26,11 +34,11 @@ def worker_table(workers: dict[str, dict]) -> Table:
         table.add_row(
             worker_id,
             f"[{style}]{status}[/{style}]",
-            str(telemetry.get("hostname", "-")),
-            str(telemetry.get("local IP", "-")),
-            f"{telemetry.get('CPU percent', 0):.1f}%",
-            f"{telemetry.get('RAM percent', 0):.1f}%",
-            f"{telemetry.get('disk percent', 0):.1f}%",
+            _text(telemetry.get("hostname")),
+            _text(telemetry.get("local IP")),
+            _percent(telemetry.get("CPU percent")),
+            _percent(telemetry.get("RAM percent")),
+            _percent(telemetry.get("disk percent")),
             "-" if temp is None else f"{temp:.1f} C",
             f"{worker.get('last_seen_age', 0):.0f}s",
         )

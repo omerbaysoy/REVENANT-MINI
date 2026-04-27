@@ -111,13 +111,18 @@ if [ "${IS_TERMUX}" -eq 1 ]; then
   PYTHON_BIN="python"
 fi
 
+REQUIREMENTS_FILE="${SRC_DIR}/requirements.txt"
+if [ "${IS_TERMUX}" -eq 1 ]; then
+  REQUIREMENTS_FILE="${SRC_DIR}/requirements-termux.txt"
+fi
+
 if "${PYTHON_BIN}" -m venv "${VENV_DIR}"; then
   "${VENV_DIR}/bin/python" -m pip install --upgrade pip
-  "${VENV_DIR}/bin/python" -m pip install -r "${SRC_DIR}/requirements.txt"
+  "${VENV_DIR}/bin/python" -m pip install -r "${REQUIREMENTS_FILE}"
   RUN_PY="${VENV_DIR}/bin/python"
 else
   echo "Virtualenv creation failed; falling back to user install." >&2
-  "${PYTHON_BIN}" -m pip install --user -r "${SRC_DIR}/requirements.txt"
+  "${PYTHON_BIN}" -m pip install --user -r "${REQUIREMENTS_FILE}"
   RUN_PY="${PYTHON_BIN}"
 fi
 

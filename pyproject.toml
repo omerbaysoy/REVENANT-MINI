@@ -10,9 +10,11 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
   "paho-mqtt",
-  "psutil",
   "rich",
 ]
+
+[project.optional-dependencies]
+linux = ["psutil"]
 
 [project.scripts]
 revenant-mini = "revenant_mini.cli:main"

@@ -22,9 +22,13 @@ def setup_logging(verbose: bool = False) -> None:
 def platform_slug() -> str:
     system = platform.system().lower() or "unknown"
     machine = platform.machine().lower() or "unknown"
-    if "ANDROID_ROOT" in os.environ or "PREFIX" in os.environ and "com.termux" in os.environ.get("PREFIX", ""):
+    if is_termux():
         system = "termux"
     return "".join(ch if ch.isalnum() else "-" for ch in f"{system}-{machine}").strip("-")
+
+
+def is_termux() -> bool:
+    return "ANDROID_ROOT" in os.environ or "com.termux" in os.environ.get("PREFIX", "")
 
 
 def local_ip() -> str:

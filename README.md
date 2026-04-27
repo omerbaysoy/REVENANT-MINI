@@ -98,7 +98,7 @@ python -m revenant_mini send --all "uname -a"
 
 `install/install.sh` detects Termux, Raspberry Pi OS, Debian/Ubuntu Linux, architecture, and the available package tool. It uses `pkg` on Termux and `apt` on Debian/Ubuntu/Raspberry Pi OS. Controller mode installs `mosquitto` and `mosquitto-clients`; worker mode does not install broker packages. Termux controller mode exits with a clear unsupported message.
 
-The installer clones or updates the repo into `~/.revenant-mini/src`, creates a venv under `~/.revenant-mini/venv` where supported, installs requirements, writes config into `~/.revenant-mini/config/`, backs up existing config before overwrite, and prints final run commands.
+The installer clones or updates the repo into `~/.revenant-mini/src`, creates a venv under `~/.revenant-mini/venv` where supported, installs requirements, writes config into `~/.revenant-mini/config/`, backs up existing config before overwrite, and prints final run commands. Termux uses `requirements-termux.txt`, which omits `psutil` because Android/Termux does not support it.
 
 ## Troubleshooting
 
@@ -144,7 +144,8 @@ Termux limitations:
 
 - Termux is supported as a worker.
 - Termux controller mode is intentionally unsupported in this MVP.
-- Some system telemetry may be unavailable without extra Android permissions.
+- Termux uses best-effort telemetry without `psutil`.
+- Some Android/Termux metrics may be unavailable and reported as `null`.
 
 Temperature is null:
 
