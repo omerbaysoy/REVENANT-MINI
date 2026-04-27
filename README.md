@@ -31,13 +31,13 @@ curl -sSL https://raw.githubusercontent.com/omerbaysoy/REVENANT-MINI/main/instal
 Worker:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/omerbaysoy/REVENANT-MINI/main/install/install.sh | bash -s -- --mode worker --broker <ANA_MAKINE_IP>
+curl -sSL https://raw.githubusercontent.com/omerbaysoy/REVENANT-MINI/main/install/install.sh | bash -s -- --mode worker --broker <CONTROLLER_IP>
 ```
 
 Termux worker:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/omerbaysoy/REVENANT-MINI/main/install/install.sh | bash -s -- --mode worker --broker <ANA_MAKINE_IP>
+curl -sSL https://raw.githubusercontent.com/omerbaysoy/REVENANT-MINI/main/install/install.sh | bash -s -- --mode worker --broker <CONTROLLER_IP>
 ```
 
 ## Manual Setup
@@ -96,7 +96,7 @@ python -m revenant_mini send --all "uname -a"
 
 ## Installer Behavior
 
-`install/install.sh` detects Termux, Raspberry Pi OS, Debian/Ubuntu Linux, architecture, and package manager. It uses `pkg` on Termux and `apt` on Debian/Ubuntu/Raspberry Pi OS. Controller mode installs `mosquitto` and `mosquitto-clients`; worker mode does not install broker packages. Termux controller mode exits with a clear unsupported message.
+`install/install.sh` detects Termux, Raspberry Pi OS, Debian/Ubuntu Linux, architecture, and the available package tool. It uses `pkg` on Termux and `apt` on Debian/Ubuntu/Raspberry Pi OS. Controller mode installs `mosquitto` and `mosquitto-clients`; worker mode does not install broker packages. Termux controller mode exits with a clear unsupported message.
 
 The installer clones or updates the repo into `~/.revenant-mini/src`, creates a venv under `~/.revenant-mini/venv` where supported, installs requirements, writes config into `~/.revenant-mini/config/`, backs up existing config before overwrite, and prints final run commands.
 
@@ -130,7 +130,7 @@ Temperature is null:
 - This is expected when `/sys/class/thermal/thermal_zone0/temp` is unavailable or inaccessible.
 - REVENANT-MINI never crashes when temperature cannot be read.
 
-Unsupported distro/package manager:
+Unsupported distro/package tool:
 
 - The installer supports Termux `pkg` and Debian/Ubuntu/Raspberry Pi OS `apt`.
 - On other systems, install Python 3.10+, dependencies from `requirements.txt`, and Mosquitto manually.

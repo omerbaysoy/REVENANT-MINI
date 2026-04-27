@@ -59,18 +59,18 @@ IS_TERMUX=0
 IS_RPI=0
 OS_NAME="$(uname -s)"
 ARCH="$(uname -m)"
-PKG_MANAGER=""
+PKG_TOOL=""
 
 if [ -n "${PREFIX:-}" ] && echo "${PREFIX}" | grep -q "com.termux"; then
   IS_TERMUX=1
-  PKG_MANAGER="pkg"
+  PKG_TOOL="pkg"
 elif [ -f /proc/device-tree/model ] && tr -d '\0' </proc/device-tree/model | grep -qi "raspberry pi"; then
   IS_RPI=1
-  PKG_MANAGER="apt"
+  PKG_TOOL="apt"
 elif command -v apt >/dev/null 2>&1; then
-  PKG_MANAGER="apt"
+  PKG_TOOL="apt"
 else
-  echo "Unsupported distro/package manager. This installer supports Termux pkg and Debian/Ubuntu/Raspberry Pi apt." >&2
+  echo "Unsupported distro/package tool. This installer supports Termux pkg and Debian/Ubuntu/Raspberry Pi apt." >&2
   exit 1
 fi
 
@@ -82,15 +82,15 @@ fi
 echo "Detected platform:"
 echo "  os: ${OS_NAME}"
 echo "  architecture: ${ARCH}"
-echo "  package_manager: ${PKG_MANAGER}"
+echo "  package_tool: ${PKG_TOOL}"
 echo "  termux: ${IS_TERMUX}"
 echo "  raspberry_pi: ${IS_RPI}"
 echo "  mode: ${MODE}"
 
-if [ "${PKG_MANAGER}" = "pkg" ]; then
+if [ "${PKG_TOOL}" = "pkg" ]; then
   pkg update
   pkg install -y git python
-elif [ "${PKG_MANAGER}" = "apt" ]; then
+elif [ "${PKG_TOOL}" = "apt" ]; then
   sudo apt update
   sudo apt install -y git python3 python3-venv python3-pip
   if [ "${MODE}" = "controller" ]; then
